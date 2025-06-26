@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8"> <!-- Устанавливаем кодировку для русскоязычных символов -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Устанавливаем масштаб для мобильных устройств -->
+    <title>Кейс-задание 4</title> <!-- Заголовок страницы -->
+    <link rel="stylesheet" href="web_actions.css"> <!-- Подключение внешнего CSS файла для стилей -->
+</head>
+<body>
+    <div class="counter-container"> <!-- Контейнер для счётчика -->
+        <h1>Счётчик</h1> <!-- Заголовок страницы -->
+        <div class="counter-display" id="counter">0</div> <!-- Отображение текущего значения счётчика -->
+        <button id="minus">Минус</button> <!-- Кнопка для уменьшения счётчика -->
+        <button id="plus">Плюс</button> <!-- Кнопка для увеличения счётчика -->
+        <div id="message"></div> <!-- Здесь будет отображаться сообщение об экстремальных значениях -->
+    </div>
+
+    <script>
+        let counterValue = 0; <!-- Инициализация счётчика -->
+
+        // Получаем ссылки на элементы страницы
+        const counterDisplay = document.getElementById('counter');
+        const plusButton = document.getElementById('plus');
+        const minusButton = document.getElementById('minus');
+        const message = document.getElementById('message');
+
+        // Функция обновления UI (интерфейса)
+        function updateUI() {
+            counterDisplay.textContent = counterValue; // Обновляем отображение текущего значения счётчика
+
+            // В зависимости от значения меняем цвет фона
+            if (counterValue > 0) {
+                counterDisplay.style.backgroundColor = 'yellow'; // Если значение положительное
+            } else if (counterValue < 0) {
+                counterDisplay.style.backgroundColor = 'green'; // Если значение отрицательное
+            } else {
+                counterDisplay.style.backgroundColor = 'red'; // Если значение равно нулю
+            }
+
+            // Блокируем кнопки и выводим сообщение при достижении крайних значений
+            if (counterValue >= 10) {
+                plusButton.disabled = true; // Блокируем кнопку "Плюс"
+                minusButton.disabled = false;
+                message.textContent = "Вы достигли максимального значения!"; // Сообщение
+            } else if (counterValue <= -10) {
+                minusButton.disabled = true; // Блокируем кнопку "Минус"
+                plusButton.disabled = false;
+                message.textContent = "Вы достигли минимального значения!"; // Сообщение
+            } else {
+                plusButton.disabled = false; // Разблокируем кнопки
+                minusButton.disabled = false;
+                message.textContent = ""; // Очищаем сообщение
+            }
+        }
+
+        // Обработчики для кнопок
+        plusButton.addEventListener('click', () => {
+            if (counterValue < 10) { // Увеличиваем значение, если оно меньше 10
+                counterValue++;
+                updateUI();
+            }
+        });
+
+        minusButton.addEventListener('click', () => {
+            if (counterValue > -10) { // Уменьшаем значение, если оно больше -10
+                counterValue--;
+                updateUI();
+            }
+        });
+
+        updateUI(); // Инициализация UI при загрузке страницы
+    </script>
+</body>
+</html>
